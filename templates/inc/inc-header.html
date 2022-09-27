@@ -6,6 +6,7 @@
                 <img src="{% static 'images/logo.png' %}" width="32" height="32" alt="">
                 PythonBin
             </a>
+             {% if page_id != 'registration' %}
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -20,6 +21,20 @@
                     </li>
                 </ul>
             </div>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+            <span style="color:white">
+                Welcome, {{request.user.username }}
+                <a href="{% url 'logout' %}">Выход</a>
+            </span>
+            {% elif page_id != 'registration' %}
+            <form method="post" action="{% url 'login' %}">{% csrf_token %}
+                <input name="username"  type="text" placeholder="username">
+                <input name="password"  type="password" placeholder="password">
+                <button type="submit">login</button>
+            </form>
+             <a href="{% url 'reg' %}">Регистрация</a>
+            {% endif %}
         </div>
     </nav>
 </header>
