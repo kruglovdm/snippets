@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 class SnippetForm(ModelForm):
     class Meta:
         model = Snippet
+        exclude = ["creation_date", "user"]
         # Описываем поля, которые будем заполнять в форме
         fields = ['name', 'lang', 'code']
         widgets = {

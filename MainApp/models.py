@@ -15,3 +15,8 @@ class Snippet(models.Model):
     creation_date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(to=User, on_delete=models.CASCADE,
                              blank=True, null=True)
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.author = request.user
+        super().save_model(request, obj, form, change)

@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from MainApp.models import Snippet
 from MainApp.forms import SnippetForm, UserRegistrationForm
 from django.contrib import auth
+from django.core.exceptions import ValidationError
 
 
 def index_page(request):
@@ -19,12 +20,14 @@ def add_snippet_page(request):
         context = {
             'page_id': 'add_snippet',
             'pagename': 'Добавление нового сниппета',
-            "snippet_form": form}
+            "form": form}
         return render(request, 'pages/add_snippet.html', context)
     elif request.method == "POST":
         form = SnippetForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_post = form.save(commit=False)
+            new_post.user = request.user
+            new_post.save()
             return redirect("snippets-list")
 
 
@@ -55,8 +58,7 @@ def login_page(request):
         if user is not None:
             auth.login(request, user)
         else:
-            # Return error message
-            pass
+            raise ValidationError("Неправильный логин или пароль")
     return redirect('home')
 
 def logout_page(request):
@@ -76,3 +78,5 @@ def reg_page(request):
         if form.is_valid():
             form.save()
             return redirect("home")
+
+
