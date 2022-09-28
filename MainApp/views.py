@@ -4,6 +4,8 @@ from MainApp.models import Snippet
 from MainApp.forms import SnippetForm, UserRegistrationForm
 from django.contrib import auth
 from django.core.exceptions import ValidationError
+from  django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.decorators import login_required
 
 
 def index_page(request):
@@ -13,7 +15,7 @@ def index_page(request):
     }
     return render(request, 'pages/index.html', context)
 
-
+@login_required
 def add_snippet_page(request):
     if request.method == "GET":
         form = SnippetForm()
@@ -26,14 +28,21 @@ def add_snippet_page(request):
         form = SnippetForm(request.POST)
         if form.is_valid():
             new_post = form.save(commit=False)
-            new_post.user = request.user
+            if not request.user:
+                new_post.user = AnonymousUser
+            else:
+                new_post.user = request.user
             new_post.save()
             return redirect("snippets-list")
 
 
-
 def snippets_page(request):
-    snippets = Snippet.objects.all()
+
+    if request.user.is_authenticated:
+        snippets = Snippet.objects.all()
+    else:
+        snippets = Snippet.objects.all()
+
     context = {
         'page_id': 'view_snippets',
         'pagename': 'Просмотр сниппетов',
@@ -41,6 +50,16 @@ def snippets_page(request):
     }
     return render(request, 'pages/view_snippets.html', context)
 
+
+def snippets_page_my(request):
+    snippets = Snippet.objects.filter(user=request.user)
+
+    context = {
+        'page_id': 'view_snippets',
+        'pagename': 'Просмотр сниппетов',
+        "snippets": snippets,
+    }
+    return render(request, 'pages/view_snippets.html', context)
 
 def snippet_detail(request, snippet_id):
     snippet = Snippet.objects.get(pk=snippet_id)

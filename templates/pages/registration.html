@@ -3,8 +3,10 @@
     <div class="container">
         <form action="" method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+            <table>
+            {{ form.as_table }}
             <input type="submit" value="Создать пользователя">
+                </table>
 
         </form>
     </div>

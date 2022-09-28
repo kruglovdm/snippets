@@ -2,8 +2,11 @@ from django.forms import ModelForm
 from MainApp.models import Snippet
 from django.forms import TextInput, Textarea
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from django.forms import CharField, PasswordInput
 from django.core.exceptions import ValidationError
+
+
 
 
 class SnippetForm(ModelForm):
@@ -11,7 +14,7 @@ class SnippetForm(ModelForm):
         model = Snippet
         exclude = ["creation_date", "user"]
         # Описываем поля, которые будем заполнять в форме
-        fields = ['name', 'lang', 'code']
+        fields = ['name', 'public', 'lang', 'code'] #
         widgets = {
             'name': TextInput(attrs={"placeholder": "Имя сниппета"}),
             'code': Textarea(attrs={"placeholder": "Код сниппета"}),
