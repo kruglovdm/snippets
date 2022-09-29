@@ -26,7 +26,8 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = '#%3rmpy6hb52y7j^tu7g*v$762rc0&f+26yy3x!j&+@s4(ndq@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
+
 
 '''
 ALLOWED_HOSTS = []
@@ -34,8 +35,8 @@ ALLOWED_HOSTS = ['*']
 '''
 ALLOWED_HOSTS = [
     '.herokuapp.com',  # Allow domain and subdomains
+    '127.0.0.1',  # Allow domain and subdomains
 ]
-
 
 
 # Application definition
