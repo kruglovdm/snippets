@@ -7,20 +7,17 @@
             <hr>
         </div>
     </div>
-
     <div class="row">
         <div class="col">
             <form action="" method="POST">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <div class="form-group row">
-                    <div class="col-8">
-                        <input type="submit" class="btn btn-primary btn-block" value="Сохранить">
-                    </div>
-                </div>
+                <table>
+                    {{ form.as_table }}
+                </table>
+                <input type="submit" class="btn btn-secondary active" value="Сохранить" name="sv" autocomplete="off" checked>
             </form>
-
         </div>
+        <div class="col"></div>
     </div>
 </div>
 {% endblock %}

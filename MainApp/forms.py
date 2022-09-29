@@ -7,14 +7,14 @@ from django.forms import CharField, PasswordInput
 from django.core.exceptions import ValidationError
 
 
-
-
 class SnippetForm(ModelForm):
     class Meta:
         model = Snippet
         exclude = ["creation_date", "user"]
+
         # Описываем поля, которые будем заполнять в форме
-        fields = ['name', 'public', 'lang', 'code'] #
+        fields = ['name', 'lang', 'code', 'public'] #
+
         widgets = {
             'name': TextInput(attrs={"placeholder": "Имя сниппета"}),
             'code': Textarea(attrs={"placeholder": "Код сниппета"}),
@@ -22,7 +22,7 @@ class SnippetForm(ModelForm):
         labels = {
             'name': '',
             'lang': '',
-            'code': ''
+            'code': '',
         }
 
 
