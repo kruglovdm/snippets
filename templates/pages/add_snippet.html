@@ -12,7 +12,7 @@
             <form action="" method="POST">
                 {% csrf_token %}
                 <table>
-                    {{ form.as_table }}
+                    {{ form.as_p }}
                 </table>
                 <input type="submit" class="btn btn-secondary active" value="Сохранить" name="sv" autocomplete="off" checked>
             </form>
